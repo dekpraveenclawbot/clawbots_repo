@@ -3,7 +3,7 @@
 _Learn about the person you're helping. Update this as you go._
 
 - **Name:** Praveen
-- **What to call them:**
+- **What to call them:** Praveen
 - **Pronouns:** _(optional)_
 - **Timezone:**
 - **Notes:**
