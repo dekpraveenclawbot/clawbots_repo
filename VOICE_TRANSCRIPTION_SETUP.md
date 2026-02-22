@@ -10,6 +10,23 @@ cd /home/praveen/.openclaw/workspace
 python transcribe_voice.py /path/to/audio.ogg --model tiny
 ```
 
+## Auto-cleanup (enabled)
+
+- Old input **audio** files are auto-deleted after **1 day**.
+- Cleanup target folder (default):
+  - `/home/praveen/.openclaw/media/inbound`
+- It only deletes audio extensions (`.ogg`, `.mp3`, `.wav`, `.m4a`, `.aac`, `.flac`).
+
+Optional flags:
+
+```bash
+# keep for 2 days
+python transcribe_voice.py /path/to/audio.ogg --keep-days 2
+
+# disable cleanup for one run
+python transcribe_voice.py /path/to/audio.ogg --no-cleanup
+```
+
 ## Notes
 
 - Works with `.ogg`, `.mp3`, `.wav`, `.m4a`
