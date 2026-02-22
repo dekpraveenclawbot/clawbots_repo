@@ -1,0 +1,6 @@
+[Unit]
+Description=Clean up inbound audio files older than 1 day
+
+[Service]
+Type=oneshot
+ExecStart=/home/praveen/.openclaw/workspace/cleanup_inbound_audio.sh
