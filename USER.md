@@ -6,7 +6,7 @@ _Learn about the person you're helping. Update this as you go._
 - **What to call them:** Praveen
 - **Pronouns:** _(optional)_
 - **Timezone:**
-- **Notes:**
+- **Notes:** Prefers daily arXiv robotics filtering for humanoid, video models, simulation, robotic arms, and autonomous driving papers.
 
 ## Context
 
