@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import os
+import webbrowser
 from datetime import datetime, timedelta, timezone
 
 from google.auth.transport.requests import Request
@@ -25,7 +26,19 @@ def get_service():
             if not os.path.exists(CREDS_FILE):
                 raise SystemExit("Missing credentials.json in workspace root.")
             flow = InstalledAppFlow.from_client_secrets_file(CREDS_FILE, SCOPES)
-            creds = flow.run_local_server(port=0)
+            try:
+                creds = flow.run_local_server(port=0)
+            except webbrowser.Error:
+                print("No local browser found. Falling back to manual auth...")
+                auth_url, _ = flow.authorization_url(prompt="consent")
+                print("Open this URL in your browser and approve access:\n")
+                print(auth_url)
+                code = input("\nPaste the full redirected URL (or just the code): ").strip()
+                if "http" in code:
+                    flow.fetch_token(authorization_response=code)
+                else:
+                    flow.fetch_token(code=code)
+                creds = flow.credentials
 
         with open(TOKEN_FILE, "w", encoding="utf-8") as f:
             f.write(creds.to_json())
