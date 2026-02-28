@@ -60,6 +60,11 @@ def parse_args():
         default="7,1",
         help="Comma-separated days-before reminders (default: 7,1)",
     )
+    p.add_argument(
+        "--reminder-minutes",
+        default="",
+        help="Comma-separated minute-before reminders, e.g. 15,60",
+    )
     return p.parse_args()
 
 
@@ -73,10 +78,16 @@ def main():
     if args.reminder_days.strip():
         reminder_days = [int(x.strip()) for x in args.reminder_days.split(",") if x.strip()]
 
+    reminder_minutes = []
+    if args.reminder_minutes.strip():
+        reminder_minutes = [int(x.strip()) for x in args.reminder_minutes.split(",") if x.strip()]
+
     overrides = []
     for d in reminder_days:
         minutes = d * 24 * 60
         overrides.append({"method": "popup", "minutes": minutes})
+    for m in reminder_minutes:
+        overrides.append({"method": "popup", "minutes": m})
 
     event = {
         "summary": args.title,
