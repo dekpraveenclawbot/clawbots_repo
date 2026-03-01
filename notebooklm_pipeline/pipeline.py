@@ -124,13 +124,33 @@ def main():
 
     project_number = os.getenv("GOOGLE_PROJECT_NUMBER", "").strip()
     notebook_id = os.getenv("NOTEBOOKLM_NOTEBOOK_ID", "").strip()
+    notebook_title = os.getenv("NOTEBOOKLM_NOTEBOOK_TITLE", "Praveen Daily Robotics Podcast").strip()
     location = os.getenv("NOTEBOOKLM_LOCATION", "global").strip()
     episode_focus = os.getenv("NOTEBOOKLM_EPISODE_FOCUS", "Daily robotics podcast")
 
-    if not project_number or not notebook_id:
-        raise SystemExit("Missing GOOGLE_PROJECT_NUMBER or NOTEBOOKLM_NOTEBOOK_ID in .env")
+    if not project_number:
+        raise SystemExit("Missing GOOGLE_PROJECT_NUMBER in .env")
 
     client = NotebookLMClient(project_number=project_number, location=location)
+
+    if not notebook_id:
+        nresp = client.create_notebook(display_name=notebook_title)
+        if not nresp.ok:
+            raise SystemExit(f"Notebook creation failed: {nresp.status_code} {nresp.text[:400]}")
+        ndata = nresp.json()
+        # May be direct notebook resource or operation wrapper.
+        notebook_name = ndata.get("name", "")
+        if "/operations/" in notebook_name:
+            notebook_name = (
+                ndata.get("response", {})
+                .get("notebook", {})
+                .get("name", "")
+            )
+        notebook_id = notebook_name.split("/")[-1] if notebook_name and "/notebooks/" in notebook_name else ""
+        if not notebook_id:
+            raise SystemExit(f"Notebook created but ID not found in response: {ndata}")
+        print(f"Auto-created notebook: {notebook_id}")
+        print("Tip: save this in .env as NOTEBOOKLM_NOTEBOOK_ID for reuse.")
 
     source_ids = []
     for p in selected:

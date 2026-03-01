@@ -28,6 +28,8 @@ This pipeline is for Praveen's daily robotics digest:
 - `.env.example` — required env vars
 - `requirements.txt`
 
+If `NOTEBOOKLM_NOTEBOOK_ID` is empty, pipeline auto-creates a notebook using `NOTEBOOKLM_NOTEBOOK_TITLE`.
+
 ## Setup
 
 ```bash
@@ -58,3 +60,4 @@ NotebookLM Enterprise API needs:
 - Google Cloud project + NotebookLM Enterprise enabled
 - `gcloud auth application-default login` OR service account setup
 - Project number + location configured in `.env`
+- If notebook ID is unknown, leave it blank and set `NOTEBOOKLM_NOTEBOOK_TITLE`
