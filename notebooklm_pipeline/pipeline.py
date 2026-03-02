@@ -134,7 +134,7 @@ def main():
     client = NotebookLMClient(project_number=project_number, location=location)
 
     if not notebook_id:
-        nresp = client.create_notebook(display_name=notebook_title)
+        nresp = client.create_notebook(title=notebook_title)
         if not nresp.ok:
             raise SystemExit(f"Notebook creation failed: {nresp.status_code} {nresp.text[:400]}")
         ndata = nresp.json()

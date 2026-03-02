@@ -25,9 +25,9 @@ class NotebookLMClient:
             "Content-Type": "application/json",
         }
 
-    def create_notebook(self, display_name: str):
+    def create_notebook(self, title: str):
         url = f"{self.base}/notebooks"
-        body = {"displayName": display_name}
+        body = {"title": title}
         return requests.post(url, headers=self._headers(), json=body, timeout=60)
 
     def add_source_url(self, notebook_id: str, source_url: str):
